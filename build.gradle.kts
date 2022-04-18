@@ -1,5 +1,26 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val lwjglNatives = run {
+    val name = System.getProperty("os.name")!!
+    val arch = System.getProperty("os.arch")!!
+
+    when {
+        arrayOf("Linux", "FreeBSD", "SunOS", "Unit").any { name.startsWith(it) } ->
+            if (arrayOf("arm", "aarch64").any { arch.startsWith(it) })
+                "natives-linux${if (arch.contains("64") || arch.startsWith("armv8")) "-arm64" else "-arm32"}"
+            else
+                "natives-linux"
+        arrayOf("Mac OS X", "Darwin").any { name.startsWith(it) }                ->
+            "natives-macos${if (arch.startsWith("aarch64")) "-arm64" else ""}"
+        arrayOf("Windows").any { name.startsWith(it) }                           ->
+            if (arch.contains("64"))
+                "natives-windows${if (arch.startsWith("aarch64")) "-arm64" else ""}"
+            else
+                "natives-windows-x86"
+        else -> throw Error("Unrecognized or unsupported platform. Please set \"lwjglNatives\" manually")
+    }
+}
+
 plugins {
     java
     kotlin("jvm") version "1.6.20"
@@ -16,19 +37,23 @@ allprojects {
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(kotlin("test"))
+
+    implementation(platform("org.lwjgl:lwjgl-bom:3.3.1-SNAPSHOT"))
+
+    testImplementation("org.lwjgl", "lwjgl")
+    testImplementation("org.lwjgl", "lwjgl-glfw")
+    testImplementation("org.lwjgl", "lwjgl-nanovg")
+    testImplementation("org.lwjgl", "lwjgl-opengl")
+    testRuntimeOnly("org.lwjgl", "lwjgl", classifier = lwjglNatives)
+    testRuntimeOnly("org.lwjgl", "lwjgl-glfw", classifier = lwjglNatives)
+    testRuntimeOnly("org.lwjgl", "lwjgl-nanovg", classifier = lwjglNatives)
+    testRuntimeOnly("org.lwjgl", "lwjgl-opengl", classifier = lwjglNatives)
+    testRuntimeOnly("org.lwjgl", "lwjgl-stb", classifier = lwjglNatives)
 }
 
-val jar = tasks["jar"] as org.gradle.jvm.tasks.Jar
-
-tasks.register("hello", JavaExec::class) {
-    group = "Execution"
-    description = "Yeet"
-    classpath = configurations.testRuntimeClasspath.get()
-    main = "me.exerro.TestKt"
-}
-
-tasks.test {
-
+repositories {
+    mavenCentral()
+    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 publishing {
