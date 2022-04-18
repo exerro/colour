@@ -1,6 +1,7 @@
 package me.exerro
 
 import me.exerro.colour.Colour
+import me.exerro.colour.ColourPalette
 import me.exerro.colour.fromHex
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.nanovg.NVGColor
@@ -28,6 +29,49 @@ fun rect(
     c.free()
 }
 
+fun drawPalette(
+    context: Long,
+    palette: ColourPalette,
+) {
+    // background0
+    // background1
+    // background2
+    // background3
+
+    // grey0
+    // grey1
+    // grey2
+
+    // foreground0
+    // foreground1
+    // foreground2
+    // foreground3
+
+    // shadow
+
+    rect(context, palette.purple, 32f, 128f, 128f, 64f)
+    rect(context, palette.red, 192f, 128f, 128f, 64f)
+    rect(context, palette.orange, 352f, 128f, 128f, 64f)
+    rect(context, palette.yellow, 512f, 128f, 128f, 64f)
+    rect(context, palette.green, 672f, 128f, 128f, 64f)
+    rect(context, palette.blue, 832f, 128f, 128f, 64f)
+
+    rect(context, palette.teal, 32f, 256f, 128f, 64f)
+    rect(context, palette.burgundy, 192f, 256f, 128f, 64f)
+    rect(context, palette.pink, 352f, 256f, 128f, 64f)
+    rect(context, palette.salmon, 512f, 256f, 128f, 64f)
+    rect(context, palette.brown, 672f, 256f, 128f, 64f)
+    rect(context, palette.cream, 832f, 256f, 128f, 64f)
+
+    rect(context, palette.grey0, 32f, 384f, 128f, 64f)
+    rect(context, palette.grey1, 192f, 384f, 128f, 64f)
+    rect(context, palette.grey2, 352f, 384f, 128f, 64f)
+    rect(context, palette.foreground0, 512f, 384f, 128f, 64f)
+    rect(context, palette.foreground1, 672f, 384f, 128f, 64f)
+    rect(context, palette.foreground2, 832f, 384f, 128f, 64f)
+    rect(context, palette.foreground3, 992f, 384f, 128f, 64f)
+}
+
 fun drawWindow(context: Long) {
     val colours = listOf(
         "#efe8c5",
@@ -37,6 +81,11 @@ fun drawWindow(context: Long) {
         "#d6b858",
         "#d37dad",
     )
+
+    GL46C.glClearColor(ColourPalette.background1.red, ColourPalette.background1.green, ColourPalette.background1.blue, 1f)
+    GL46C.glClear(GL46C.GL_COLOR_BUFFER_BIT)
+
+    drawPalette(context, ColourPalette)
 
     for ((i, v) in colours.withIndex()) {
         rect(context, Colour.fromHex(v), 64f * i, 0f, 64f, 32f)
