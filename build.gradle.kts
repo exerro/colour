@@ -15,13 +15,27 @@ allprojects {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    testImplementation(kotlin("test"))
+}
+
+val jar = tasks["jar"] as org.gradle.jvm.tasks.Jar
+
+tasks.register("hello", JavaExec::class) {
+    group = "Execution"
+    description = "Yeet"
+    classpath = configurations.testRuntimeClasspath.get()
+    main = "me.exerro.TestKt"
+}
+
+tasks.test {
+
 }
 
 publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "me.exerro"
-            artifactId = "kotlin-template"
+            artifactId = "colour"
             version = "1.0.0"
 
             from(components["java"])
