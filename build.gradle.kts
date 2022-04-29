@@ -31,6 +31,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
 }
 
@@ -38,7 +39,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(kotlin("test"))
 
-    implementation(platform("org.lwjgl:lwjgl-bom:3.3.1-SNAPSHOT"))
+    testImplementation(platform("org.lwjgl:lwjgl-bom:3.3.1-SNAPSHOT"))
 
     testImplementation("org.lwjgl", "lwjgl")
     testImplementation("org.lwjgl", "lwjgl-glfw")
@@ -49,11 +50,6 @@ dependencies {
     testRuntimeOnly("org.lwjgl", "lwjgl-nanovg", classifier = lwjglNatives)
     testRuntimeOnly("org.lwjgl", "lwjgl-opengl", classifier = lwjglNatives)
     testRuntimeOnly("org.lwjgl", "lwjgl-stb", classifier = lwjglNatives)
-}
-
-repositories {
-    mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 publishing {
