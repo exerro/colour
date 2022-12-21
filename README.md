@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.exerro:colour:1.0.0")
+    implementation("me.exerro:colour:1.0.1")
 }
 ```
 
@@ -40,7 +40,7 @@ dependencies {
 <dependency>
   <groupId>me.exerro</groupId>
   <artifactId>colour</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 

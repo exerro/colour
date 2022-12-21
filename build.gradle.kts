@@ -23,7 +23,7 @@ val lwjglNatives = run {
 
 plugins {
     java
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.7.21"
     `maven-publish`
 }
 
@@ -57,7 +57,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "me.exerro"
             artifactId = "colour"
-            version = "1.0.0"
+            version = "1.0.1"
 
             from(components["java"])
         }
